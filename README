@@ -18,8 +18,11 @@ Changes:
 
 1.02	Bob "grafman" Free <grafman@graphcomp.com>
 	Improved instantiation of shader subclasses
-	Added SetArray for setting integer uniforms
-	Updated SetMatrix to handle both 3x3 and 4x4 matrices  	
+	Added SetArray for setting integer uniforms in GLSL shaders
+	Updated SetMatrix to handle both 3x3 and 4x4 matrices in GLSL shaders
+
+	Ivan Baidakou
+	Improved error reporting for shader compiles
 
 1.01	Bob "grafman" Free <grafman@graphcomp.com>
 	Removed duplicate documentation in Shader.pm
