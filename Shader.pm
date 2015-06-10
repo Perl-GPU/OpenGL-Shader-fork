@@ -19,7 +19,7 @@ use warnings;
 use Carp;
 
 use vars qw($VERSION $SHADER_TYPES @ISA);
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 @ISA = qw(Exporter);
 
@@ -122,6 +122,7 @@ sub new
   my @types = @_ ? @_ : ('GLSL','CG','ARB');
   foreach my $type (@types)
   {
+    next if (!$type);
     my $obj;
     my $module = GetTypeModule($type);
     my $exec = qq

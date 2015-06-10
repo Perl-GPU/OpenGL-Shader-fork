@@ -15,7 +15,7 @@ require Exporter;
 use Carp;
 
 use vars qw($VERSION $SHADER_VER $DESCRIPTION @ISA);
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 $SHADER_VER = '1.0';
 
@@ -88,11 +88,10 @@ sub new
   my $ver = TypeVersion();
   return undef if (!$ver);
 
-  my $self = new OpenGL::Shader::Common(@_);
+  my $self = new OpenGL::Shader::Common('ARB');
   return undef if (!$self);
   bless($self,$class);
 
-  $self->{type} = 'ARB';
   $self->{version} = $ver;
   $self->{description} = TypeDescription();
 

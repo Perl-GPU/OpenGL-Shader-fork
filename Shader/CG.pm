@@ -15,7 +15,9 @@ require Exporter;
 use Carp;
 
 use vars qw($VERSION $SHADER_VER $DESCRIPTION @ISA);
-$VERSION = '1.01';
+$VERSION = '1.02';
+
+$SHADER_VER = '1.0';
 
 $DESCRIPTION = qq
 {nVidia's Cg Shader Language};
@@ -93,11 +95,10 @@ sub new
   my $ver = TypeVersion();
   return undef if (!$ver);
 
-  my $self = new OpenGL::Shader::Objects(@_);
+  my $self = new OpenGL::Shader::Objects('CG');
   return undef if (!$self);
   bless($self,$class);
 
-  $self->{type} = 'CG';
   $self->{version} = $ver;
   $self->{description} = $DESCRIPTION;
 

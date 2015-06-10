@@ -15,7 +15,7 @@ require Exporter;
 use Carp;
 
 use vars qw($VERSION $SHADER_VER $DESCRIPTION @ISA);
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 $DESCRIPTION = qq
 {OpenGL Shader Language};
@@ -91,11 +91,10 @@ sub new
   my $ver = TypeVersion();
   return undef if (!$ver);
 
-  my $self = new OpenGL::Shader::Objects(@_);
+  my $self = new OpenGL::Shader::Objects('GLSL');
   return undef if (!$self);
   bless($self,$class);
 
-  $self->{type} = 'GLSL';
   $self->{version} = $ver;
   $self->{description} = $DESCRIPTION;
 

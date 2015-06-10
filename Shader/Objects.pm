@@ -17,7 +17,7 @@ require Exporter;
 use Carp;
 
 use vars qw($VERSION @ISA);
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 use OpenGL::Shader::Common;
 @ISA = qw(Exporter OpenGL::Shader::Common);
@@ -54,7 +54,8 @@ sub new
   my $this = shift;
   my $class = ref($this) || $this;
 
-  my $self = new OpenGL::Shader::Common(@_);
+  my($type) = @_;
+  my $self = new OpenGL::Shader::Common($type);
   return undef if (!$self);
   bless($self,$class);
 
@@ -63,7 +64,6 @@ sub new
   return undef if (OpenGL::glpCheckExtension('GL_ARB_fragment_shader'));
   return undef if (OpenGL::glpCheckExtension('GL_ARB_vertex_shader'));
 
-  $self->{type} = '';
   $self->{version} = '';
   $self->{description} = '';
 
@@ -186,7 +186,22 @@ sub Map
 }
 
 
-# Set shader vector
+# Set shader Uniform integer array
+sub SetArray
+{
+  my($self,$var,@values) = @_;
+
+  my $id = $self->Map($var);
+  return 'Unable to map $var' if (!defined($id));
+
+  my $count = scalar(@values);
+  eval('glUniform'.$count.'iARB($id,@values)');
+
+  return '';
+}
+
+
+# Set shader Uniform float array
 sub SetVector
 {
   my($self,$var,@values) = @_;
@@ -201,15 +216,27 @@ sub SetVector
 }
 
 
-# Set shader 4x4 matrix
+# Set shader matrix
 sub SetMatrix
 {
   my($self,$var,$oga) = @_;
 
   my $id = $self->Map($var);
   return 'Unable to map $var' if (!defined($id));
+  
+  if ($oga->elements == 16)
+  {
+    glUniformMatrix4fvARB_c($id,1,0,$oga->ptr());
+  }
+  elsif ($oga->elements == 9)
+  {
+    glUniformMatrix3fvARB_c($id,1,0,$oga->ptr());
+  }
+  else
+  {
+    return 'Only supports 3x3 and 4x4 matrices';
+  }
 
-  glUniformMatrix4fvARB_c($id,1,0,$oga->ptr());
   return '';
 }
 
